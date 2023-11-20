@@ -1,0 +1,13 @@
+/* Shop Page CSS */
+
+
+.shop-header {
+    background-image: url("https://www.bhmpics.com/downloads/star-wars-landscape-Wallpapers/1.1200171.jpg");
+    background-size: cover;
+    height: 700px;
+    color: white; 
+}
+
+.shop-stats {
+    color: white; 
+}
