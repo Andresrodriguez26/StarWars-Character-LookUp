@@ -22,9 +22,14 @@ def get_character(name):
 
     response = requests.get(url, headers=headers)
     data = response.json()
-    name = [character.get('name') for character in data]
+    # print(data)
+    # name = [character.get('name') for character in data]
+    homeworld = ""
+    for character in data:
+         if character['name'] == name:
+            homeworld = character["homeworld"]
     # homeworld = [character.get('homeworld') for character in data]
-    return name
+    return  homeworld
     
 
 

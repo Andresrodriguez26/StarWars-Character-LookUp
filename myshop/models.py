@@ -64,22 +64,26 @@ class User(db.Model, UserMixin):
 class Product(db.Model): #db.Model helps us translate python code to columns in SQL 
     prod_id = db.Column(db.String, primary_key=True)
     character_name = db.Column(db.String(50), nullable=False)
+    homeworld = db.Column(db.String(50))
     price = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     date_added = db.Column(db.DateTime, default = datetime.utcnow)
     #eventually we need to connect this to orders 
 
-    def __init__(self, price, quantity, character_name=""):
+    def __init__(self, price, quantity, character_name):
         self.prod_id = self.set_id()
-        self.character_name = self.get_name(character_name)
+        self.character_name = character_name
+        self.homeworld = self.get_homeworld(character_name)
         self.price = price
         self.quantity = quantity 
 
     def set_id(self):
         return str(uuid.uuid4())
     
-    def get_name(self, name):
-        return name
+    def get_homeworld(self, name):
+        get_both = get_character(name)
+        print(get_both)
+        return get_both
     
 
     

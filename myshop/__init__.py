@@ -7,7 +7,7 @@ from .blueprints.auth.routes import auth
 from flask_cors import CORS 
 from flask_jwt_extended import JWTManager 
 from .helpers import JSONEncoder 
-
+from .blueprints.api.routes import api
 
 
 app = Flask(__name__)
@@ -26,6 +26,8 @@ login_manager.login_message_category = 'warning'
 
 app.register_blueprint(site)
 app.register_blueprint(auth)
+app.register_blueprint(api)
+
 
 
 db.init_app(app)

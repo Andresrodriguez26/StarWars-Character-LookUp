@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container-fluid justify-content-center">
-    <div class="row shop-header p-5">
+    <div class="row shop-header p-5 justify-content-center">
         <div class="col-3 ms-5 d-flex flex-column justify-content-center">
             <h2>Welcome to Your Favorite Character shop!</h2>
             {% if current_user.is_authenticated %}
@@ -29,8 +29,8 @@
                 <!-- <img src=" {{ product.image }}" alt="cute plant picture" srcset="" class="img-fluid rounded"> -->
             </div>
             <div class="card-body d-flex flex-column justify-content-center p-4">
-                <h5 class="card-title"> {{ product.name }}</h5>
-                <p class="card-text"> {{ product.description }}</p>
+                <h5 class="card-title"> {{ product.character_name }}</h5>
+                <p class="card-text"> {{ product.homeworld }}</p>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Price: {{ product.price }}</li>
                     <li class="list-group-item">Quantity: {{ product.quantity }}</li>

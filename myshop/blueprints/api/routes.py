@@ -9,7 +9,7 @@ api = Blueprint('api', __name__, url_prefix='/api')
 @api.route('/token', methods = ['GET', 'POST'])
 def token():
 
-    data = request.json()
+    data = request.json
     if data:
         client_id = data['client_id']
         access_token = create_access_token(identity=client_id) #just needs a unique identifier 
@@ -71,6 +71,31 @@ def create_order(cust_id):
         'status' : 200,
         'message' : 'New Order was Created.'
     }
+
+
+@api.route('/order/<cust_id>')
+@jwt_required()
+def get_orders(cust_id):
+
+    #need to grab all prodorders associated with that customer
+    prodorder = ProdOrder.query.filter(ProdOrder.cust_id == cust_id).all()
+
+
+    data = []
+
+    for order in prodorder:
+
+        product = Product.query.filter(Product.prod_id == order.prod_id).first()
+
+        product_dict = product_schema.dump(product)
+
+        product_dict['quantity'] = order.quantity 
+        product_dict['order_id'] = order.order_id 
+        product_dict['id'] = order.prodorder_id 
+
+        data.append(product_dict)
+
+    return jsonify(data)
 
 
 @api.route('/order/update/<order_id>', methods = ['PUT']) #whenever we are updating we using PUT
