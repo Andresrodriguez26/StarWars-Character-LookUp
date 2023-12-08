@@ -7,6 +7,10 @@
             <span class="err-msg">{{ error }}</span>
         {% endfor %}
     </div>
+    <div class="col-12">
+        {{ form.image.label }}
+        {{ form.image(class='form-control mt-2') }}
+    </div>
     <div class="col-12" style="color: white;">
         {{ form.price.label }}
         {{ form.price(class='form-control mt-2', placeholder='$10.99') }}

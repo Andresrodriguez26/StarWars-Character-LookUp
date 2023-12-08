@@ -6,7 +6,7 @@ import uuid
 from flask_marshmallow import Marshmallow
 
 # Internal imports
-from .helpers import get_character
+from .helpers import get_character, get_image #NEW
 
 
 db = SQLAlchemy() 
@@ -65,17 +65,19 @@ class Product(db.Model): #db.Model helps us translate python code to columns in 
     prod_id = db.Column(db.String, primary_key=True)
     character_name = db.Column(db.String(50), nullable=False)
     homeworld = db.Column(db.String(50))
+    image = db.Column(db.String) #NEW
     price = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     date_added = db.Column(db.DateTime, default = datetime.utcnow)
     #eventually we need to connect this to orders 
-
-    def __init__(self, price, quantity, character_name):
+                                                        #NEW
+    def __init__(self, price, quantity, character_name, image=""):
         self.prod_id = self.set_id()
         self.character_name = character_name
         self.homeworld = self.get_homeworld(character_name)
         self.price = price
-        self.quantity = quantity 
+        self.quantity = quantity
+        self.image = self.set_image(image, character_name) #NEW
 
     def set_id(self):
         return str(uuid.uuid4())
@@ -85,6 +87,13 @@ class Product(db.Model): #db.Model helps us translate python code to columns in 
         print(get_both)
         return get_both
     
+    def set_image(self, image, name): #NEW
+
+        if not image: # Aka the user didnt give us an image
+            image = get_image(name) # Name is going to become search & we are going to use it to make our api call
+            # Comeback and add our api call
+
+        return image
 
     
     def decrement_quantity(self, quantity):
@@ -198,7 +207,7 @@ class Order(db.Model):
 class ProductSchema(ma.Schema):
 
     class Meta:
-        fields = ['prod_id', 'character_name', 'homeworld', 'price', 'quantity']
+        fields = ['prod_id', 'character_name', 'homeworld', 'price', 'quantity', 'image']
 
 
 
